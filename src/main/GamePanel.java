@@ -19,13 +19,15 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
+    final int defaultTimeBetweenSpawn = 2000;
+
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
 
 
 
     Player player = new Player(this, keyHandler);
-    Enemy_Spawner enemy_spawner = new Enemy_Spawner(this);
+    Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn);
 
     public GamePanel () {
 
