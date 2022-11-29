@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Player extends Entity {
 
-    GamePanel gamePanel;
+    private final GamePanel gamePanel;
     KeyHandler keyHandler;
 
     public Player (GamePanel gamePanel, KeyHandler keyHandler)
@@ -25,7 +25,7 @@ public class Player extends Entity {
     public void setDefaultPosition ()
     {
         x = 100;
-        y = 350;
+        y = 400;
         state = 1;
     }
 
@@ -41,7 +41,6 @@ public class Player extends Entity {
             System.out.println("image loading ended");
         } catch (IOException e)
         {
-            //e.printStackTrace();
             System.out.println("ERROR!");
         }
     }
@@ -54,7 +53,6 @@ public class Player extends Entity {
             case 3 -> this.state = 3;
         }
 
-        //System.out.println(this.state);
     }
     public void draw (Graphics2D g2)
     {

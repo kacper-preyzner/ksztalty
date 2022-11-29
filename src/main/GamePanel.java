@@ -1,5 +1,6 @@
 package main;
 
+import entity.Enemy_Spawner;
 import entity.Player;
 
 import javax.swing.*;
@@ -20,7 +21,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
+
+
+
     Player player = new Player(this, keyHandler);
+    Enemy_Spawner enemy_spawner = new Enemy_Spawner(this);
 
     public GamePanel () {
 
@@ -54,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update()
     {
         player.update();
+        enemy_spawner.update();
 
     }
 
@@ -64,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2  = (Graphics2D) g;
 
         player.draw(g2);
+        enemy_spawner.draw(g2);
 
         g2.dispose();
 
