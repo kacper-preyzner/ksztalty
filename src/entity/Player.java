@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Player extends Entity {
 
-    private final GamePanel gamePanel;
+
     KeyHandler keyHandler;
 
     public Player (GamePanel gamePanel, KeyHandler keyHandler)

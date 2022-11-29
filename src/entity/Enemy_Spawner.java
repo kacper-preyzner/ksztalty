@@ -1,24 +1,25 @@
 package entity;
 
-import main.Countdown;
+import main.SpawnerCountdown;
 import main.GamePanel;
-import main.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 
 public class Enemy_Spawner extends Entity {
 
-    private final GamePanel gamePanel;
 
     private int defaultTimeBetweenSpawn;
     private int timeBetweenSpawn;
 
-    Countdown countdown = new Countdown();
+    private int defaultEnemySpawnLocationX;
+    private int defaultEnemySpawnLocationY;
+
+    SpawnerCountdown countdown = new SpawnerCountdown(this);
 
     public Enemy_Spawner (GamePanel gamePanel, int defaultTimeBetweenSpawn)
     {
@@ -37,6 +38,9 @@ public class Enemy_Spawner extends Entity {
         x = 900;
         y = 400;
         state = 1;
+
+        defaultEnemySpawnLocationX = this.x - 100;
+        defaultEnemySpawnLocationY = this.y;
     }
 
     public void getSpawnerImage()
@@ -76,4 +80,30 @@ public class Enemy_Spawner extends Entity {
     }
 
 
+    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+    public void spawnEnemy ()
+    {
+        enemies.add(new Enemy(gamePanel,defaultEnemySpawnLocationX,defaultEnemySpawnLocationY));
+    }
+
+    public void updateEnemies ()
+    {
+        int n = enemies.size();
+        for (int i = 0; i < n; i++)
+        {
+            enemies.get(i).update();
+            //System.out.println("updating " + enemies.get(i));
+        }
+    }
+
+    public void drawEnemies (Graphics2D g2)
+    {
+        int n = enemies.size();
+        for (int i = 0; i < n; i++)
+        {
+            enemies.get(i).draw(g2);
+            System.out.println(i + " enemy state : " + enemies.get(i).state);
+        }
+    }
 }

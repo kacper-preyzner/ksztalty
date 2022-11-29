@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int defaultTimeBetweenSpawn = 2000;
 
+
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
 
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
     {
         player.update();
         enemy_spawner.update();
+        enemy_spawner.updateEnemies();
 
     }
 
@@ -73,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.draw(g2);
         enemy_spawner.draw(g2);
+        enemy_spawner.drawEnemies(g2);
 
         g2.dispose();
 
