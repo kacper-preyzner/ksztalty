@@ -1,5 +1,6 @@
 package entity;
 
+import main.FPS;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -45,6 +46,7 @@ public class Player extends Entity {
         }
     }
 
+    int n = 0;
     public void update ()
     {
         switch (keyHandler.getState()) {
@@ -52,6 +54,7 @@ public class Player extends Entity {
             case 2 -> this.state = 2;
             case 3 -> this.state = 3;
         }
+
 
     }
     public void draw (Graphics2D g2)

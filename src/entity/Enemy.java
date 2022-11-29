@@ -1,5 +1,6 @@
 package entity;
 
+import main.FPS;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -11,11 +12,12 @@ import java.util.Random;
 
 public class Enemy extends Entity {
 
+    private final int speed;
 
-
-    public Enemy (GamePanel gamePanel,int defaultX, int defaultY)
+    public Enemy (GamePanel gamePanel,int defaultX, int defaultY, int speed)
     {
         this.gamePanel = gamePanel;
+        this.speed = speed;
 
         setDefaultPosition(defaultX, defaultY);
         getEnemyImage();
@@ -47,9 +49,12 @@ public class Enemy extends Entity {
         }
     }
 
+
+
     public void update ()
     {
         ;
+
     }
     public void draw (Graphics2D g2)
     {
@@ -62,5 +67,10 @@ public class Enemy extends Entity {
 
         g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
 
+    }
+
+    public void Move()
+    {
+        this.x -= speed;
     }
 }

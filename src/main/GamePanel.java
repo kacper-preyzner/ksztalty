@@ -11,7 +11,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int originalTileSize = 16;
     final int scale = 4;
-                //Tile size = 64
+                // Tile size = 64
     final public int tileSize = originalTileSize * scale;
     final int maxScreenCol = 18;
     final int maxScreenRow = 14;
@@ -19,7 +19,9 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
-    final int defaultTimeBetweenSpawn = 2000;
+    final int defaultTimeBetweenSpawn = 1500; // In milliseconds
+
+    final int enemy_speed = 70;
 
 
     KeyHandler keyHandler = new KeyHandler();
@@ -28,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     Player player = new Player(this, keyHandler);
-    Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn);
+    Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn, enemy_speed);
 
     public GamePanel () {
 
@@ -47,6 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
+
+
     @Override
     public void run() {
 
@@ -55,6 +59,8 @@ public class GamePanel extends JPanel implements Runnable {
              update();
 
              repaint();
+
+             FPS.calcDeltaTime();
         }
 
     }
@@ -63,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
     {
         player.update();
         enemy_spawner.update();
-        enemy_spawner.updateEnemies();
 
     }
 

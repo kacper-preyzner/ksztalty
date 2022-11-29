@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class SpawnerCountdown {
 
 
-    private Enemy_Spawner enemy_spawner;
+    private final Enemy_Spawner enemy_spawner;
     public SpawnerCountdown (Enemy_Spawner enemy_spawner)
     {
         this.enemy_spawner = enemy_spawner;
@@ -22,6 +22,8 @@ public class SpawnerCountdown {
         {
             System.out.println("Spawning enemy");
             enemy_spawner.spawnEnemy();
+            enemy_spawner.moveEnemies();
+
         }
     };
 

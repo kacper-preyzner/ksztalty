@@ -16,16 +16,19 @@ public class Enemy_Spawner extends Entity {
     private int defaultTimeBetweenSpawn;
     private int timeBetweenSpawn;
 
-    private int defaultEnemySpawnLocationX;
-    private int defaultEnemySpawnLocationY;
+    private int enemySpawnLocationX;
+    private int enemySpawnLocationY;
+
+    private int enemy_speed;
 
     SpawnerCountdown countdown = new SpawnerCountdown(this);
 
-    public Enemy_Spawner (GamePanel gamePanel, int defaultTimeBetweenSpawn)
+    public Enemy_Spawner (GamePanel gamePanel, int defaultTimeBetweenSpawn, int enemy_speed)
     {
         this.gamePanel = gamePanel;
         this.defaultTimeBetweenSpawn = defaultTimeBetweenSpawn;
         this.timeBetweenSpawn = this.defaultTimeBetweenSpawn;
+        this.enemy_speed = enemy_speed;
 
         countdown.Start(timeBetweenSpawn);
 
@@ -39,8 +42,8 @@ public class Enemy_Spawner extends Entity {
         y = 400;
         state = 1;
 
-        defaultEnemySpawnLocationX = this.x - 100;
-        defaultEnemySpawnLocationY = this.y;
+        enemySpawnLocationX = this.x - 100;
+        enemySpawnLocationY = this.y;
     }
 
     public void getSpawnerImage()
@@ -84,15 +87,15 @@ public class Enemy_Spawner extends Entity {
 
     public void spawnEnemy ()
     {
-        enemies.add(new Enemy(gamePanel,defaultEnemySpawnLocationX,defaultEnemySpawnLocationY));
+        enemies.add(new Enemy(gamePanel, enemySpawnLocationX, enemySpawnLocationY, enemy_speed));
     }
 
-    public void updateEnemies ()
+    public void moveEnemies ()
     {
         int n = enemies.size();
         for (int i = 0; i < n; i++)
         {
-            enemies.get(i).update();
+            enemies.get(i).Move();
             //System.out.println("updating " + enemies.get(i));
         }
     }

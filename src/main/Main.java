@@ -20,6 +20,7 @@ public class Main
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        FPS.calcBeginTime();
         gamePanel.startGameThread();
     }
 }
