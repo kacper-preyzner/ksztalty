@@ -6,7 +6,6 @@ import entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.SocketOption;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -23,6 +22,8 @@ public class GamePanel extends JPanel implements Runnable {
     final int defaultTimeBetweenSpawn = 1500; // In milliseconds
 
     final int enemy_speed = 70;
+
+
 
 
     KeyHandler keyHandler = new KeyHandler();
@@ -91,7 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
     {
         if (player.getState() == enemy.getState())
         {
-            enemy.Kill();
+           enemy.startDying(enemy_spawner.getTimeBetweenSpawn());
         } else
         {
             System.out.println("GAME OVER");

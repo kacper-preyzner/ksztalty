@@ -34,12 +34,12 @@ public class Player extends Entity {
     {
         try
         {
-            System.out.println("image loading started");
+           // System.out.println("image loading started");
             s1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/1P.png"));
             s2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/2P.png"));
             s3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/3P.png"));
 
-            System.out.println("image loading ended");
+           // System.out.println("image loading ended");
         } catch (IOException e)
         {
             System.out.println("ERROR!");
@@ -57,18 +57,7 @@ public class Player extends Entity {
 
 
     }
-    public void draw (Graphics2D g2)
-    {
-        BufferedImage image = switch (state) {
-            case 1 -> s1;
-            case 2 -> s2;
-            case 3 -> s3;
-            default -> null;
-        };
 
-        g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
-
-    }
 
 
 }

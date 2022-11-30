@@ -9,16 +9,21 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Enemy extends Entity {
 
     private final int speed;
 
+    private Enemy_Spawner enemy_spawner;
 
-    public Enemy (GamePanel gamePanel,int defaultX, int defaultY, int speed)
+
+    public Enemy (GamePanel gamePanel,int defaultX, int defaultY, int speed, Enemy_Spawner enemy_spawner)
     {
         this.gamePanel = gamePanel;
         this.speed = speed;
+        this.enemy_spawner = enemy_spawner;
 
         setDefaultPosition(defaultX, defaultY);
         getEnemyImage();
@@ -38,12 +43,12 @@ public class Enemy extends Entity {
     {
         try
         {
-            System.out.println("enemy image loading started");
+           // System.out.println("enemy image loading started");
             s1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/1E.png"));
             s2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/2E.png"));
             s3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/3E.png"));
 
-            System.out.println("enemy image loading ended");
+           // System.out.println("enemy image loading ended");
         } catch (IOException e)
         {
             System.out.println("ERROR!");
@@ -57,22 +62,7 @@ public class Enemy extends Entity {
         ;
 
     }
-    public void draw (Graphics2D g2)
-    {
-        BufferedImage image = switch (state) {
-            case 1 -> s1;
-            case 2 -> s2;
-            case 3 -> s3;
-            default -> null;
-        };
 
-        if (alive)
-        {
-            g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
-        }
-
-
-    }
 
     public void Move()
     {
@@ -83,6 +73,23 @@ public class Enemy extends Entity {
             gamePanel.playerAttacked(this);
         }
 
+    }
+
+    private Timer timer = new Timer();
+    private TimerTask task = new TimerTask()
+    {
+
+        @Override
+        public void run()
+        {
+            Kill();
+        }
+    };
+
+    public void startDying (int timeBetweenSpawn)
+    {
+        int delay = timeBetweenSpawn / 2;
+        timer.schedule(task,delay);
     }
 
 

@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -24,5 +25,21 @@ public class Entity {
     public void Kill ()
     {
         this.alive = false;
+    }
+
+    public void draw (Graphics2D g2)
+    {
+        BufferedImage image = switch (state) {
+            case 1 -> s1;
+            case 2 -> s2;
+            case 3 -> s3;
+            default -> null;
+        };
+
+        if (alive)
+        {
+            g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
+        }
+
     }
 }
