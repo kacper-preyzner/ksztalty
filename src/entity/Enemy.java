@@ -14,7 +14,6 @@ public class Enemy extends Entity {
 
     private final int speed;
 
-    private boolean alive = true;
 
     public Enemy (GamePanel gamePanel,int defaultX, int defaultY, int speed)
     {
@@ -86,8 +85,5 @@ public class Enemy extends Entity {
 
     }
 
-    public void Kill ()
-    {
-        this.alive = false;
-    }
+
 }

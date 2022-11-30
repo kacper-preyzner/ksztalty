@@ -12,9 +12,17 @@ public class Entity {
 
     public int state;
 
+    protected boolean alive = true;
+
     public BufferedImage s1, s2, s3;
 
-    public int getState() {
+    public int getState()
+    {
         return state;
+    }
+
+    public void Kill ()
+    {
+        this.alive = false;
     }
 }
