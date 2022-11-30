@@ -30,6 +30,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private int score;
 
+    private boolean running;
+    private final double updateRate = 1.0d; // UPDATES_PER_SECOND;
+
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
@@ -74,32 +77,46 @@ public class GamePanel extends JPanel implements Runnable {
         container.setPadding(new Spacing(50));
         container.setBackgroundColor(Color.DARK_GRAY);
         container.addUIComponent(new HorizontalContainer());
+        container.addUIComponent(new HorizontalContainer());
+        container.addUIComponent(new HorizontalContainer());
         uiContainers.add(container);
     }
 
 
     @Override
-    public void run() {
+    public void run()
+    {
 
-        while (gameThread != null)
-        {
-             update();
+        running = true;
+        double accumulator = 0;
+        long currentTime, lastUpdate = System.currentTimeMillis();
 
-             repaint();
+        while(running) {
+            currentTime = System.currentTimeMillis();
+            double lastRenderTimeInSeconds = (currentTime - lastUpdate) / 1000d;
+            accumulator += lastRenderTimeInSeconds;
+            lastUpdate = currentTime;
 
-             FPS.calcDeltaTime();
+            if(accumulator >= updateRate) {
+                while(accumulator >= updateRate) {
+                    update();
+                    accumulator -= updateRate;
+                }
+            }
+            repaint();
         }
 
     }
 
+    //update();
 
+    //repaint();
 
     public void update()
     {
         player.update();
         enemy_spawner.update();
         uiContainers.forEach(UIContainer::update);
-
 
     }
 
