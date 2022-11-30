@@ -2,30 +2,47 @@ package ui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UIContainer extends UIComponent{
+public abstract class UIContainer extends UIComponent{
 
-    private Color backgroundColor;
+    protected Color backgroundColor;
+
+    protected ArrayList<UIComponent> children;
+
 
     public UIContainer ()
     {
         super();
-        backgroundColor = Color.GRAY;
+        backgroundColor = Color.RED;
 
-        calcSize();
-        calcPosition();
+        if (children != null)
+        {
+            calcSize();
+            calcPosition();
+        }
+        margin = new Spacing(5);
+
+
+
+        children = new ArrayList<UIComponent>();
     }
 
-
+    protected abstract Size calcContentSize();
+    protected abstract void calcContentPosition();
 
     private void calcSize()
     {
-        size = new Size(padding.getHorizontal(), padding.getVertical());
+        Size calculatedContentSize = calcContentSize();
+        size = new Size(padding.getHorizontal() + calculatedContentSize.getWidth(),
+                padding.getVertical() + calculatedContentSize.getHeight());
     }
 
     private void calcPosition ()
     {
         position = new Position(margin.getLeft(), margin.getTop());
+        calcContentPosition();
     }
 
     @Override
@@ -37,6 +54,13 @@ public class UIContainer extends UIComponent{
         graphics.setColor(backgroundColor);
         graphics.fillRect(0,0, size.getWidth(), size.getHeight());
 
+        children.forEach(uiComponent -> graphics.drawImage(
+                uiComponent.getSprite(),
+                uiComponent.getPosition().getX(),
+                uiComponent.getPosition().getY(),
+                null
+                ));
+
         graphics.dispose();
         return image;
     }
@@ -44,7 +68,18 @@ public class UIContainer extends UIComponent{
     @Override
     public void update()
     {
+        children.forEach(uiComponent -> uiComponent.update());
         calcSize();
         calcPosition();
+    }
+
+    public void addUIComponent (UIComponent uiComponent)
+    {
+        children.add(uiComponent);
+    }
+
+    public void setBackgroundColor(Color backgroundColor)
+    {
+        this.backgroundColor = backgroundColor;
     }
 }

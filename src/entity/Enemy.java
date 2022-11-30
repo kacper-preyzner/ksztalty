@@ -90,6 +90,7 @@ public class Enemy extends Entity {
     {
         int delay = timeBetweenSpawn / 2;
         timer.schedule(task,delay);
+        gamePanel.addScore();
     }
 
 

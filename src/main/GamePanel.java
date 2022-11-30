@@ -3,6 +3,8 @@ package main;
 import entity.Enemy;
 import entity.Enemy_Spawner;
 import entity.Player;
+import ui.HorizontalContainer;
+import ui.Spacing;
 import ui.UIContainer;
 import ui.UIRenderer;
 
@@ -25,6 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
     final int defaultTimeBetweenSpawn = 1500; // In milliseconds
 
     final int enemy_speed = 70;
+
+    private int score;
 
 
     KeyHandler keyHandler = new KeyHandler();
@@ -61,12 +65,15 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
         initializeUI ();
 
-
     }
 
     public void initializeUI ()
     {
-        UIContainer container = new UIContainer();
+        HorizontalContainer container = new HorizontalContainer();
+
+        container.setPadding(new Spacing(50));
+        container.setBackgroundColor(Color.DARK_GRAY);
+        container.addUIComponent(new HorizontalContainer());
         uiContainers.add(container);
     }
 
@@ -111,9 +118,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.dispose();
 
-
-
-
     }
 
     public void playerAttacked (Enemy enemy)
@@ -125,5 +129,16 @@ public class GamePanel extends JPanel implements Runnable {
         {
             System.out.println("GAME OVER");
         }
+    }
+
+    public void addScore ()
+    {
+        score++;
+        System.out.println("Score : " + score);
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 }
