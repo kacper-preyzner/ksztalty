@@ -3,9 +3,12 @@ package main;
 import entity.Enemy;
 import entity.Enemy_Spawner;
 import entity.Player;
+import ui.UIContainer;
+import ui.UIRenderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -24,8 +27,6 @@ public class GamePanel extends JPanel implements Runnable {
     final int enemy_speed = 70;
 
 
-
-
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
 
@@ -33,6 +34,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     Player player = new Player(this, keyHandler);
     Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn, enemy_speed);
+
+    private ArrayList<UIContainer> uiContainers = new ArrayList<UIContainer>();
 
     public GamePanel () {
 
@@ -44,13 +47,28 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
 
+
+    private UIRenderer uiRenderer = new UIRenderer();
+
+    public ArrayList<UIContainer> getUiContainers()
+    {
+        return uiContainers;
+    }
+
     public void startGameThread (){
 
         gameThread = new Thread(this);
         gameThread.start();
+        initializeUI ();
+
 
     }
 
+    public void initializeUI ()
+    {
+        UIContainer container = new UIContainer();
+        uiContainers.add(container);
+    }
 
 
     @Override
@@ -67,10 +85,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
+
+
     public void update()
     {
         player.update();
         enemy_spawner.update();
+        uiContainers.forEach(UIContainer::update);
+
 
     }
 
@@ -84,7 +106,13 @@ public class GamePanel extends JPanel implements Runnable {
         enemy_spawner.draw(g2);
         enemy_spawner.drawEnemies(g2);
 
+
+        uiRenderer.renderUI(this, g);
+
         g2.dispose();
+
+
+
 
     }
 

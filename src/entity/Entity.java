@@ -5,7 +5,7 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Entity {
+public abstract class Entity {
 
     protected GamePanel gamePanel;
 
