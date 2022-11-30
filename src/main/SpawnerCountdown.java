@@ -20,7 +20,7 @@ public class SpawnerCountdown {
         @Override
         public void run()
         {
-            System.out.println("Spawning enemy");
+            //System.out.println("Spawning enemy");
             enemy_spawner.spawnEnemy();
             enemy_spawner.moveEnemies();
 

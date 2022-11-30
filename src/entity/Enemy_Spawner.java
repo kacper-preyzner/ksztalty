@@ -106,7 +106,7 @@ public class Enemy_Spawner extends Entity {
         for (int i = 0; i < n; i++)
         {
             enemies.get(i).draw(g2);
-            System.out.println(i + " enemy state : " + enemies.get(i).state);
+            // System.out.println(i + " enemy state : " + enemies.get(i).state);
         }
     }
 }

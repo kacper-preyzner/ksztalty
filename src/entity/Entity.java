@@ -13,4 +13,8 @@ public class Entity {
     public int state;
 
     public BufferedImage s1, s2, s3;
+
+    public int getState() {
+        return state;
+    }
 }

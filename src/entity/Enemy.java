@@ -14,6 +14,8 @@ public class Enemy extends Entity {
 
     private final int speed;
 
+    private boolean alive = true;
+
     public Enemy (GamePanel gamePanel,int defaultX, int defaultY, int speed)
     {
         this.gamePanel = gamePanel;
@@ -65,12 +67,27 @@ public class Enemy extends Entity {
             default -> null;
         };
 
-        g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
+        if (alive)
+        {
+            g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
+        }
+
 
     }
 
     public void Move()
     {
         this.x -= speed;
+        // System.out.println("Position : " + this.x);
+        if (this.x == 100)
+        {
+            gamePanel.playerAttacked(this);
+        }
+
+    }
+
+    public void Kill ()
+    {
+        this.alive = false;
     }
 }

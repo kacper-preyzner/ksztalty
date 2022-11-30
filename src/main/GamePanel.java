@@ -1,5 +1,6 @@
 package main;
 
+import entity.Enemy;
 import entity.Enemy_Spawner;
 import entity.Player;
 
@@ -84,5 +85,16 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.dispose();
 
+    }
+
+    public void playerAttacked (Enemy enemy)
+    {
+        if (player.getState() == enemy.getState())
+        {
+            enemy.Kill();
+        } else
+        {
+            System.out.println("GAME OVER");
+        }
     }
 }
