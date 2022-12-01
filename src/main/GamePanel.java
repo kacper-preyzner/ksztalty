@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
         HorizontalContainer container = new HorizontalContainer();
 
         container.setPadding(new Spacing(50));
-        container.setBackgroundColor(Color.DARK_GRAY);
+        container.setBackgroundColor(new Color(134,134,137));
         container.addUIComponent(new HorizontalContainer());
         container.addUIComponent(new HorizontalContainer());
         container.addUIComponent(new HorizontalContainer());

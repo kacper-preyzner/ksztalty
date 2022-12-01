@@ -22,7 +22,6 @@ public abstract class UIComponent {
 
     public abstract Image getSprite();
 
-
     public Position getPosition()
     {
         return position;

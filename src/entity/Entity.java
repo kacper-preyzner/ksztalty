@@ -41,7 +41,5 @@ public abstract class Entity {
             g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
         }
 
-
-
     }
 }

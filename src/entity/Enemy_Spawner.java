@@ -5,6 +5,7 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -117,6 +118,22 @@ public class Enemy_Spawner extends Entity {
     public Timer getTimer1 ()
     {
         return gameTimer.getTimer1();
+    }
+
+    public void draw (Graphics2D g2)
+    {
+        BufferedImage image = switch (state) {
+            case 1 -> s1;
+            case 2 -> s2;
+            case 3 -> s3;
+            default -> null;
+        };
+
+        if (alive)
+        {
+            g2.drawImage(image, x,y,gamePanel.tileSize * 2,gamePanel.tileSize,null);
+        }
+
     }
 
 
