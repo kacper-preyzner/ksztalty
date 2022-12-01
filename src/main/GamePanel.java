@@ -179,7 +179,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private GameBalancer gameBalancer = new GameBalancer();
+    private GameBalancer gameBalancer = new GameBalancer(background);
 
 
     public void addScore ()

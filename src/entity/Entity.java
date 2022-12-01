@@ -15,7 +15,7 @@ public abstract class Entity {
 
     protected boolean alive = true;
 
-    protected BufferedImage s1, s2, s3;
+    protected BufferedImage s1, s2, s3, s4, s5;
 
     public int getState()
     {

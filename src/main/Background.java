@@ -23,7 +23,6 @@ public class Background extends Entity {
         this.y = y;
         state = 1;
 
-
     }
 
     public void getBackgroundImage()
@@ -31,7 +30,11 @@ public class Background extends Entity {
         try
         {
             System.out.println("Background image loading started");
-            s1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background.png"));
+            s1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_1.png"));
+            s2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_2.png"));
+            s3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_3.png"));
+            s4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_4.png"));
+            s5 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_5.png"));
 
              System.out.println("Background image loading ended");
         } catch (IOException e)
@@ -46,6 +49,8 @@ public class Background extends Entity {
             case 1 -> s1;
             case 2 -> s2;
             case 3 -> s3;
+            case 4 -> s4;
+            case 5 -> s5;
             default -> null;
         };
 
@@ -54,7 +59,10 @@ public class Background extends Entity {
             g2.drawImage(image, x,y,gamePanel.getScreenWidth(),gamePanel.getScreenHeight(),null);
         }
 
+    }
 
-
+    public void nextBgState ()
+    {
+        state++;
     }
 }

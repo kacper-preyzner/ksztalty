@@ -7,8 +7,12 @@ public class GameBalancer {
     private int defaultTimeBtwSpawn = 1500;
     private int timeBtwSpawn;
     private GamePanel gamePanel;
+    private Background background;
 
-
+    public GameBalancer(Background background)
+    {
+        this.background = background;
+    }
 
     public int getDefaultTimeBtwSpawn()
     {
@@ -31,23 +35,27 @@ public class GameBalancer {
             timeBtwSpawn = 1000;
             terminateTimer1(enemy_spawner);
             enemy_spawner.getGameTimer().Start2(timeBtwSpawn);
+            background.nextBgState();
         } else if (score == 30)
         {
             timeBtwSpawn = 800;
             terminateTimer2(enemy_spawner);
             enemy_spawner.getGameTimer().Start3(timeBtwSpawn);
+            background.nextBgState();
         } else if (score == 40)
         {
             timeBtwSpawn = 700;
             terminateTimer3(enemy_spawner);
             enemy_spawner.getGameTimer().Start4(timeBtwSpawn);
+            background.nextBgState();
         }
-        else if (score == 60)
+        else if (score == 70)
 
         {
             timeBtwSpawn = 500;
             terminateTimer4(enemy_spawner);
             enemy_spawner.getGameTimer().Start5(timeBtwSpawn);
+            background.nextBgState();
         }
 
         enemy_spawner.setTimeBetweenSpawn(timeBtwSpawn);
