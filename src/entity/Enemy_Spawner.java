@@ -131,10 +131,7 @@ public class Enemy_Spawner extends Entity {
 
         if (alive)
         {
-            g2.drawImage(image, x,y,gamePanel.tileSize * 2,gamePanel.tileSize,null);
+            g2.drawImage(image, x - gamePanel.getTileSize(),y,gamePanel.getTileSize() * 2,gamePanel.getTileSize(),null);
         }
-
     }
-
-
 }

@@ -14,19 +14,19 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    final int originalTileSize = 16;
-    final int scale = 4;
+    private final int originalTileSize = 16;
+    private final int scale = 4;
                 // Tile size = 64
-    final public int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 18;
-    final int maxScreenRow = 14;
+    private final int tileSize = originalTileSize * scale;
+    private final int maxScreenCol = 18;
+    private final int maxScreenRow = 14;
 
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    private final int screenWidth = tileSize * maxScreenCol;
+    private final int screenHeight = tileSize * maxScreenRow;
 
-    final int defaultTimeBetweenSpawn = 1500; // In milliseconds
+    private final int defaultTimeBetweenSpawn = 1500; // In milliseconds
 
-    final int enemy_speed = 70;
+    private final int enemy_speed = 70;
 
     private int score;
 
@@ -37,11 +37,37 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
 
+    public int getTileSize() {
+        return tileSize;
+    }
 
+    public int getScreenWidth() {
+        return screenWidth;
+    }
 
-    Player player = new Player(this, keyHandler);
-    Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn, enemy_speed);
-    Background background = new Background(0,0, this);
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public double getUpdateRate() {
+        return updateRate;
+    }
+
+    public UIRenderer getUiRenderer() {
+        return uiRenderer;
+    }
+
+    public GameBalancer getGameBalancer() {
+        return gameBalancer;
+    }
+
+    private final Player player = new Player(this, keyHandler);
+    private final Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn, enemy_speed);
+    private final Background background = new Background(0,0, this);
 
     private ArrayList<UIContainer> uiContainers = new ArrayList<UIContainer>();
 

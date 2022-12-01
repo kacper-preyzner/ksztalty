@@ -71,7 +71,7 @@ public class Player extends Entity {
 
         if (alive)
         {
-            g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
+            g2.drawImage(image, x,y,gamePanel.getTileSize(),gamePanel.getTileSize(),null);
         }
 
     }

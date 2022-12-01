@@ -51,7 +51,7 @@ public class Background extends Entity {
 
         if (alive)
         {
-            g2.drawImage(image, x,y,gamePanel.screenWidth,gamePanel.screenHeight,null);
+            g2.drawImage(image, x,y,gamePanel.getScreenWidth(),gamePanel.getScreenHeight(),null);
         }
 
 
