@@ -49,12 +49,30 @@ public class Player extends Entity {
     int n = 0;
     public void update ()
     {
-        switch (keyHandler.getState()) {
+
+
+    }
+
+    public void draw (Graphics2D g2)
+    {
+        switch (keyHandler.getState())
+        {
             case 1 -> this.state = 1;
             case 2 -> this.state = 2;
             case 3 -> this.state = 3;
         }
 
+        BufferedImage image = switch (state) {
+            case 1 -> s1;
+            case 2 -> s2;
+            case 3 -> s3;
+            default -> null;
+        };
+
+        if (alive)
+        {
+            g2.drawImage(image, x,y,gamePanel.getTileSize(),gamePanel.getTileSize(),null);
+        }
 
     }
 

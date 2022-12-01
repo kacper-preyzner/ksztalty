@@ -5,17 +5,17 @@ import main.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Entity {
+public abstract class Entity {
 
     protected GamePanel gamePanel;
 
-    public int x,y;
+    protected int x,y;
 
-    public int state;
+    protected int state = 1;
 
     protected boolean alive = true;
 
-    public BufferedImage s1, s2, s3;
+    protected BufferedImage s1, s2, s3;
 
     public int getState()
     {
@@ -38,7 +38,7 @@ public class Entity {
 
         if (alive)
         {
-            g2.drawImage(image, x,y,gamePanel.tileSize,gamePanel.tileSize,null);
+            g2.drawImage(image, x,y,gamePanel.getTileSize(),gamePanel.getTileSize(),null);
         }
 
     }

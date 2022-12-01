@@ -5,8 +5,10 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 
 public class Enemy_Spawner extends Entity {
@@ -29,7 +31,7 @@ public class Enemy_Spawner extends Entity {
         this.timeBetweenSpawn = this.defaultTimeBetweenSpawn;
         this.enemy_speed = enemy_speed;
 
-        gameTimer.Start(timeBetweenSpawn);
+        gameTimer.Start1(timeBetweenSpawn);
 
         setDefaultPosition();
         getSpawnerImage();
@@ -111,5 +113,25 @@ public class Enemy_Spawner extends Entity {
     public int getTimeBetweenSpawn()
     {
         return timeBetweenSpawn;
+    }
+
+    public Timer getTimer1 ()
+    {
+        return gameTimer.getTimer1();
+    }
+
+    public void draw (Graphics2D g2)
+    {
+        BufferedImage image = switch (state) {
+            case 1 -> s1;
+            case 2 -> s2;
+            case 3 -> s3;
+            default -> null;
+        };
+
+        if (alive)
+        {
+            g2.drawImage(image, x - gamePanel.getTileSize(),y,gamePanel.getTileSize() * 2,gamePanel.getTileSize(),null);
+        }
     }
 }
