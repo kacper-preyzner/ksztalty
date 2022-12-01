@@ -3,10 +3,7 @@ package main;
 import entity.Enemy;
 import entity.Enemy_Spawner;
 import entity.Player;
-import ui.HorizontalContainer;
-import ui.Spacing;
-import ui.UIContainer;
-import ui.UIRenderer;
+import ui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private final int enemy_speed = 70;
 
-    private int score;
+    public static int score;
 
     private boolean running;
     private final double updateRate = 1.0d; // UPDATES_PER_SECOND;
@@ -100,16 +97,18 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
+    private ScoreText scoreText = new ScoreText("SCORE : 0");
+
     public void initializeUI ()
     {
         HorizontalContainer container = new HorizontalContainer();
 
+
         container.setPadding(new Spacing(50));
         container.setBackgroundColor(new Color(134,134,137));
-        container.addUIComponent(new HorizontalContainer());
-        container.addUIComponent(new HorizontalContainer());
-        container.addUIComponent(new HorizontalContainer());
+
         uiContainers.add(container);
+        container.addUIComponent(scoreText);
     }
 
 
@@ -179,7 +178,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private GameBalancer gameBalancer = new GameBalancer();
+    private GameBalancer gameBalancer = new GameBalancer(background);
 
 
     public void addScore ()
