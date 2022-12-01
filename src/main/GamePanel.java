@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     Player player = new Player(this, keyHandler);
     Enemy_Spawner enemy_spawner = new Enemy_Spawner(this, defaultTimeBetweenSpawn, enemy_speed);
+    Background background = new Background(0,0, this);
 
     private ArrayList<UIContainer> uiContainers = new ArrayList<UIContainer>();
 
@@ -63,6 +64,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void startGameThread (){
+
+        System.out.println("Screen Width : " + screenWidth);
+        System.out.println("Screen Height : " + screenHeight);
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -126,6 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2  = (Graphics2D) g;
 
+        background.draw(g2);
         player.draw(g2);
         enemy_spawner.draw(g2);
         enemy_spawner.drawEnemies(g2);
@@ -148,10 +153,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    private GameBalancer gameBalancer = new GameBalancer();
+
+
     public void addScore ()
     {
         score++;
         System.out.println("Score : " + score);
+        gameBalancer.balanceGame(score, enemy_spawner);
     }
 
     public int getScore()

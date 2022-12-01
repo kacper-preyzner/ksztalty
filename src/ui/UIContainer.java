@@ -17,16 +17,11 @@ public abstract class UIContainer extends UIComponent{
         super();
         backgroundColor = Color.RED;
 
-        if (children != null)
-        {
-            calcSize();
-            calcPosition();
-        }
-        margin = new Spacing(5);
-
-
-
         children = new ArrayList<UIComponent>();
+
+        calcSize();
+        calcPosition();
+
     }
 
     protected abstract Size calcContentSize();

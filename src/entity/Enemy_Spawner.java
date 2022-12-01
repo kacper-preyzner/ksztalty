@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 
 public class Enemy_Spawner extends Entity {
@@ -29,7 +30,7 @@ public class Enemy_Spawner extends Entity {
         this.timeBetweenSpawn = this.defaultTimeBetweenSpawn;
         this.enemy_speed = enemy_speed;
 
-        gameTimer.Start(timeBetweenSpawn);
+        gameTimer.Start1(timeBetweenSpawn);
 
         setDefaultPosition();
         getSpawnerImage();
@@ -112,4 +113,11 @@ public class Enemy_Spawner extends Entity {
     {
         return timeBetweenSpawn;
     }
+
+    public Timer getTimer1 ()
+    {
+        return gameTimer.getTimer1();
+    }
+
+
 }
