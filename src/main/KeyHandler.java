@@ -41,6 +41,11 @@ public class KeyHandler implements KeyListener {
             gamePanel.restart();
         }
 
+        if (code == KeyEvent.VK_SPACE && gamePanel.getGameState() == 1)
+        {
+            gamePanel.startGame();
+        }
+
     }
 
     @Override

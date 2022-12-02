@@ -1,12 +1,16 @@
 package main;
 
+import audio.AudioManager;
 import entity.Enemy;
 import entity.Enemy_Spawner;
 import entity.Player;
 import ui.*;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -70,7 +74,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private ArrayList<UIContainer> uiContainers = new ArrayList<UIContainer>();
 
-    public GamePanel () {
+    private final AudioManager audioManager = new AudioManager();
+
+    public GamePanel () throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -93,6 +99,8 @@ public class GamePanel extends JPanel implements Runnable {
         System.out.println("Screen Width : " + screenWidth);
         System.out.println("Screen Height : " + screenHeight);
 
+        gameState = 1;
+
         gameThread = new Thread(this);
         gameThread.start();
         initializeUI ();
@@ -100,14 +108,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     GameOverScreen gameOverScreen = new GameOverScreen("GAME OVER! PRESS R TO RETRY", this);
+    StartScreen startScreen = new StartScreen("PRESS SPACE TO START", this);
 
-    private ScoreText scoreText = new ScoreText("SCORE : 0", this);
+    private final ScoreText scoreText = new ScoreText("SCORE : 0", this);
 
     public void initializeUI ()
     {
         HorizontalContainer container = new HorizontalContainer(this);
-        VerticalContainer gameOverContainer = new VerticalContainer(this);
-        HorizontalContainer gameOverContainer1 = new HorizontalContainer(this);
+        HorizontalContainer centerUIContainer = new HorizontalContainer(this);
 
 
         container.setPadding(new Spacing(10));
@@ -115,15 +123,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         uiContainers.add(container);
         container.addUIComponent(scoreText);
-        uiContainers.add(gameOverContainer);
+        uiContainers.add(centerUIContainer);
 
-        gameOverContainer1.setSize(new Size(screenWidth, screenHeight));
+        centerUIContainer.setSize(new Size(screenWidth,screenHeight));
+        centerUIContainer.setBackgroundColor(new Color(1,1,1,0));
+        centerUIContainer.setAligment(new Aligment(Aligment.Position.CENTER, Aligment.Position.CENTER));
 
-        gameOverContainer.setSize(new Size(screenWidth,screenHeight));
-        gameOverContainer.setBackgroundColor(new Color(1,1,1,0));
-        gameOverContainer.setAligment(new Aligment(Aligment.Position.CENTER, Aligment.Position.CENTER));
-
-        gameOverContainer.addUIComponent(gameOverScreen);
+        centerUIContainer.addUIComponent(gameOverScreen);
+        centerUIContainer.addUIComponent(startScreen);
 
     }
 
@@ -206,6 +213,9 @@ public class GamePanel extends JPanel implements Runnable {
             System.out.println("GAME OVER");
             gameBalancer.balanceGame(score);
             gameState = 3;
+
+            audioManager.stopMainTheme();
+            audioManager.playDeathSound();
         }
     }
 
@@ -219,6 +229,8 @@ public class GamePanel extends JPanel implements Runnable {
         score++;
         System.out.println("Score : " + score);
         gameBalancer.balanceGame(score);
+
+        audioManager.playMoveSound();
     }
 
     public int getScore()
@@ -239,5 +251,13 @@ public class GamePanel extends JPanel implements Runnable {
         score = 0;
         enemy_spawner.killAllEnemies();
         gameBalancer.balanceGame(score);
+
+
+        audioManager.playMainTheme();
+    }
+
+    public void startGame()
+    {
+        restart();
     }
 }
