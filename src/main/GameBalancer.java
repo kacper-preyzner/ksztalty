@@ -4,14 +4,16 @@ import entity.Enemy_Spawner;
 
 public class GameBalancer {
 
-    private int defaultTimeBtwSpawn = 1500;
+    private final int defaultTimeBtwSpawn = 1500;
     private int timeBtwSpawn;
     private GamePanel gamePanel;
-    private Background background;
+    private final Background background;
+    private Enemy_Spawner enemy_spawner;
 
-    public GameBalancer(Background background)
+    public GameBalancer(Background background, Enemy_Spawner enemy_spawner)
     {
         this.background = background;
+        this.enemy_spawner = enemy_spawner;
     }
 
     public int getDefaultTimeBtwSpawn()
@@ -25,65 +27,51 @@ public class GameBalancer {
 
     }
 
-    public void balanceGame (int score, Enemy_Spawner enemy_spawner)
+    public void balanceGame (int score)
     {
         if (score < 10)
         {
             timeBtwSpawn = defaultTimeBtwSpawn;
+            background.setBgState(1);
         } else if (score == 10)
         {
             timeBtwSpawn = 1000;
-            terminateTimer1(enemy_spawner);
-            enemy_spawner.getGameTimer().Start2(timeBtwSpawn);
-            background.nextBgState();
+            background.setBgState(2);
         } else if (score == 30)
         {
             timeBtwSpawn = 800;
-            terminateTimer2(enemy_spawner);
-            enemy_spawner.getGameTimer().Start3(timeBtwSpawn);
-            background.nextBgState();
+            background.setBgState(3);
         } else if (score == 40)
         {
             timeBtwSpawn = 700;
-            terminateTimer3(enemy_spawner);
-            enemy_spawner.getGameTimer().Start4(timeBtwSpawn);
-            background.nextBgState();
+            background.setBgState(4);
         }
         else if (score == 70)
 
         {
             timeBtwSpawn = 500;
-            terminateTimer4(enemy_spawner);
-            enemy_spawner.getGameTimer().Start5(timeBtwSpawn);
-            background.nextBgState();
+            background.setBgState(5);
+        }
+        else if (score == 90)
+
+        {
+            timeBtwSpawn = 500;
+            background.setBgState(6);
+        }
+        else if (score == 110)
+
+        {
+            timeBtwSpawn = 500;
+            background.setBgState(7);
+        }
+        else if (score == 130)
+
+        {
+            timeBtwSpawn = 500;
+            background.setBgState(8);
         }
 
         enemy_spawner.setTimeBetweenSpawn(timeBtwSpawn);
     }
-
-    private void terminateTimer1 (Enemy_Spawner enemy_spawner)
-    {
-        enemy_spawner.getTimer1().cancel();
-    }
-
-    private void terminateTimer2 (Enemy_Spawner enemy_spawner)
-    {
-        enemy_spawner.getGameTimer().getTimer2().cancel();
-    }
-
-    private void terminateTimer3 (Enemy_Spawner enemy_spawner)
-    {
-        enemy_spawner.getGameTimer().getTimer3().cancel();
-    }
-
-    private void terminateTimer4 (Enemy_Spawner enemy_spawner)
-    {
-        enemy_spawner.getGameTimer().getTimer4().cancel();
-    }
-    private void terminateTimer5 (Enemy_Spawner enemy_spawner)
-    {
-        enemy_spawner.getGameTimer().getTimer5().cancel();
-    }
-
 
 }

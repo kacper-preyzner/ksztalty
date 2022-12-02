@@ -1,6 +1,8 @@
 package ui;
 
 
+import main.GamePanel;
+
 import java.awt.*;
 
 public abstract class UIComponent {
@@ -9,13 +11,15 @@ public abstract class UIComponent {
     protected Size size;
     protected Spacing margin;
     protected Spacing padding;
+    protected  GamePanel gamePanel;
 
-    public UIComponent()
+    public UIComponent(GamePanel gamePanel)
     {
         this.position = new Position(0,0);
         this.size = new Size(1,1);
         this.margin = new Spacing(0);
         this.padding = new Spacing(5);
+        this.gamePanel = gamePanel;
     }
 
     public abstract void update ();

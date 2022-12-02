@@ -25,13 +25,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     private final int enemy_speed = 70;
 
-    public static int score;
+    private int score;
 
     private boolean running;
     private final double updateRate = 1.0d; // UPDATES_PER_SECOND;
 
+    private int gameState = 2;
 
-    KeyHandler keyHandler = new KeyHandler();
+
+    KeyHandler keyHandler = new KeyHandler(this);
     Thread gameThread;
 
     public int getTileSize() {
@@ -79,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
-    private UIRenderer uiRenderer = new UIRenderer();
+    private final UIRenderer uiRenderer = new UIRenderer();
 
     public ArrayList<UIContainer> getUiContainers()
     {
@@ -97,18 +99,32 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    private ScoreText scoreText = new ScoreText("SCORE : 0");
+    GameOverScreen gameOverScreen = new GameOverScreen("GAME OVER! PRESS R TO RETRY", this);
+
+    private ScoreText scoreText = new ScoreText("SCORE : 0", this);
 
     public void initializeUI ()
     {
-        HorizontalContainer container = new HorizontalContainer();
+        HorizontalContainer container = new HorizontalContainer(this);
+        VerticalContainer gameOverContainer = new VerticalContainer(this);
+        HorizontalContainer gameOverContainer1 = new HorizontalContainer(this);
 
 
-        container.setPadding(new Spacing(50));
-        container.setBackgroundColor(new Color(134,134,137));
+        container.setPadding(new Spacing(10));
+        container.setBackgroundColor(new Color(134,134,137,0));
 
         uiContainers.add(container);
         container.addUIComponent(scoreText);
+        uiContainers.add(gameOverContainer);
+
+        gameOverContainer1.setSize(new Size(screenWidth, screenHeight));
+
+        gameOverContainer.setSize(new Size(screenWidth,screenHeight));
+        gameOverContainer.setBackgroundColor(new Color(1,1,1,0));
+        gameOverContainer.setAligment(new Aligment(Aligment.Position.CENTER, Aligment.Position.CENTER));
+
+        gameOverContainer.addUIComponent(gameOverScreen);
+
     }
 
 
@@ -143,8 +159,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update()
     {
-        player.update();
-        enemy_spawner.update();
+
+        if (gameState == 2)
+        {
+            player.update();
+            enemy_spawner.update();
+
+
+        }
         uiContainers.forEach(UIContainer::update);
 
     }
@@ -156,9 +178,14 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2  = (Graphics2D) g;
 
         background.draw(g2);
-        player.draw(g2);
-        enemy_spawner.draw(g2);
-        enemy_spawner.drawEnemies(g2);
+
+        if (gameState == 2)
+        {
+            player.draw(g2);
+            enemy_spawner.draw(g2);
+            enemy_spawner.drawEnemies(g2);
+        }
+
 
 
         uiRenderer.renderUI(this, g);
@@ -169,27 +196,48 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playerAttacked (Enemy enemy)
     {
+        if (!enemy.isAlive()) return;
+
         if (player.getState() == enemy.getState())
         {
-           enemy.startDying(enemy_spawner.getTimeBetweenSpawn());
+           enemy.startDying(enemy_spawner.getTimeBetweenSpawn(), true);
         } else
         {
             System.out.println("GAME OVER");
+            gameBalancer.balanceGame(score);
+            gameState = 3;
         }
     }
 
-    private GameBalancer gameBalancer = new GameBalancer(background);
+    private GameBalancer gameBalancer = new GameBalancer(background, enemy_spawner);
 
 
     public void addScore ()
     {
+        if (gameState != 2) return;
+
         score++;
         System.out.println("Score : " + score);
-        gameBalancer.balanceGame(score, enemy_spawner);
+        gameBalancer.balanceGame(score);
     }
 
     public int getScore()
     {
         return score;
+    }
+
+    public int getGameState()
+    {
+        return gameState;
+    }
+
+    public void restart()
+    {
+        this.gameState = 2;
+        player.makeAlive();
+        enemy_spawner.getGameTimer().startTimer();
+        score = 0;
+        enemy_spawner.killAllEnemies();
+        gameBalancer.balanceGame(score);
     }
 }

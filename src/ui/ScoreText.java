@@ -5,16 +5,18 @@ import main.GamePanel;
 public class ScoreText extends UIText{
 
     int score;
+    private GamePanel gamePanel;
 
-    public ScoreText(String text) {
-        super(text);
+    public ScoreText(String text, GamePanel gamePanel) {
+        super(text, gamePanel);
+        this.gamePanel = gamePanel;
     }
 
     @Override
     public void update()
     {
         super.update();
-        score = GamePanel.score;
+        score = gamePanel.getScore();
         this.text = ("SCORE : " + score);
     }
 }

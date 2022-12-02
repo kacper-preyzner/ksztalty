@@ -44,9 +44,9 @@ public class Enemy extends Entity {
         try
         {
            // System.out.println("enemy image loading started");
-            s1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/1E.png"));
-            s2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/2E.png"));
-            s3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/3E.png"));
+            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/1E.png")));
+            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/2E.png")));
+            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/3E.png")));
 
            // System.out.println("enemy image loading ended");
         } catch (IOException e)
@@ -86,10 +86,11 @@ public class Enemy extends Entity {
         }
     };
 
-    public void startDying (int timeBetweenSpawn)
+    public void startDying (int timeBetweenSpawn, boolean isKilledByPlayer)
     {
         int delay = timeBetweenSpawn / 2;
         timer.schedule(task,delay);
+        //if (!isKilledByPlayer) return;
         gamePanel.addScore();
     }
 

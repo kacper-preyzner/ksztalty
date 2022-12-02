@@ -4,6 +4,7 @@ import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class Entity {
 
@@ -15,7 +16,7 @@ public abstract class Entity {
 
     protected boolean alive = true;
 
-    protected BufferedImage s1, s2, s3, s4, s5;
+    protected ArrayList <BufferedImage> bufferedImages = new ArrayList <BufferedImage>();
 
     public int getState()
     {
@@ -30,9 +31,9 @@ public abstract class Entity {
     public void draw (Graphics2D g2)
     {
         BufferedImage image = switch (state) {
-            case 1 -> s1;
-            case 2 -> s2;
-            case 3 -> s3;
+            case 1 -> bufferedImages.get(0);
+            case 2 -> bufferedImages.get(1);
+            case 3 -> bufferedImages.get(2);
             default -> null;
         };
 
@@ -41,5 +42,15 @@ public abstract class Entity {
             g2.drawImage(image, x,y,gamePanel.getTileSize(),gamePanel.getTileSize(),null);
         }
 
+    }
+
+    public void setAlive(boolean alive)
+    {
+        this.alive = alive;
+    }
+
+    public boolean isAlive()
+    {
+        return alive;
     }
 }

@@ -1,5 +1,7 @@
 package ui;
 
+import main.GamePanel;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -9,19 +11,23 @@ public abstract class UIContainer extends UIComponent{
 
     protected Color backgroundColor;
 
+    protected Aligment aligment;
+    protected Size windowSize;
+
     protected ArrayList<UIComponent> children;
 
 
-    public UIContainer ()
+    public UIContainer (GamePanel gamePanel)
     {
-        super();
+        super(gamePanel);
+        this.aligment = new Aligment(Aligment.Position.START, Aligment.Position.START);
+        windowSize = new Size(gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
         backgroundColor = Color.RED;
 
         children = new ArrayList<UIComponent>();
 
         calcSize();
         calcPosition();
-
     }
 
     protected abstract Size calcContentSize();
@@ -36,7 +42,28 @@ public abstract class UIContainer extends UIComponent{
 
     private void calcPosition ()
     {
-        position = new Position(margin.getLeft(), margin.getTop());
+        int x = padding.getLeft();
+        if (aligment.getHorizontal().equals(Aligment.Position.CENTER))
+        {
+            x = windowSize.getWidth() / 2 - size.getWidth() / 2;
+        }
+        if (aligment.getHorizontal() == Aligment.Position.END)
+        {
+            x = windowSize.getWidth() - size.getWidth() - margin.getRight();
+        }
+
+        int y = padding.getTop();
+        if (aligment.getVertical().equals(Aligment.Position.CENTER))
+        {
+            y = windowSize.getHeight() / 2 - size.getHeight() / 2;
+        }
+        if (aligment.getVertical() == Aligment.Position.END)
+        {
+            y = windowSize.getHeight() - size.getHeight() - margin.getBottom();
+        }
+
+        this.position = new Position(x,y);
+
         calcContentPosition();
     }
 
@@ -66,6 +93,7 @@ public abstract class UIContainer extends UIComponent{
         children.forEach(uiComponent -> uiComponent.update());
         calcSize();
         calcPosition();
+
     }
 
     public void addUIComponent (UIComponent uiComponent)
@@ -76,5 +104,15 @@ public abstract class UIContainer extends UIComponent{
     public void setBackgroundColor(Color backgroundColor)
     {
         this.backgroundColor = backgroundColor;
+    }
+
+    public void setAligment(Aligment aligment)
+    {
+        this.aligment = aligment;
+    }
+
+    public ArrayList<UIComponent> getChildren()
+    {
+        return children;
     }
 }

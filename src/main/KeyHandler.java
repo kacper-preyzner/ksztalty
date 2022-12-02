@@ -6,6 +6,12 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     private int state = 1;
+    private GamePanel gamePanel;
+
+    public KeyHandler(GamePanel gamePanel)
+    {
+        this.gamePanel = gamePanel;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -28,6 +34,11 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_E)
         {
             this.state = 3;
+        }
+
+        if (code == KeyEvent.VK_R && gamePanel.getGameState() == 3)
+        {
+            gamePanel.restart();
         }
 
     }

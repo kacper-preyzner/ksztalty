@@ -1,8 +1,14 @@
 package ui;
 
+import main.GamePanel;
+
 public class HorizontalContainer extends UIContainer {
 
 
+    public HorizontalContainer(GamePanel gamePanel)
+    {
+        super(gamePanel);
+    }
 
     @Override
     protected Size calcContentSize()

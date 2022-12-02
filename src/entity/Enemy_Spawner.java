@@ -20,9 +20,11 @@ public class Enemy_Spawner extends Entity {
     private int enemySpawnLocationX;
     private int enemySpawnLocationY;
 
-    private int enemy_speed;
+    private final int enemy_speed;
 
-    GameTimer gameTimer = new GameTimer(this);
+    private final GamePanel gamePanel;
+
+    private GameTimer gameTimer;
 
     public Enemy_Spawner (GamePanel gamePanel, int defaultTimeBetweenSpawn, int enemy_speed)
     {
@@ -31,7 +33,9 @@ public class Enemy_Spawner extends Entity {
         this.timeBetweenSpawn = this.defaultTimeBetweenSpawn;
         this.enemy_speed = enemy_speed;
 
-        gameTimer.Start1(timeBetweenSpawn);
+        GameTimer gameTimer = new GameTimer(this, gamePanel);
+        this.gameTimer = gameTimer;
+        gameTimer.startTimer();
 
         setDefaultPosition();
         getSpawnerImage();
@@ -52,7 +56,7 @@ public class Enemy_Spawner extends Entity {
         try
         {
            // System.out.println("spawner image loading started");
-            s1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/enemy_spawner.png"));
+            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/enemy_spawner.png")));
 
            // System.out.println("spawner image loading ended");
         } catch (IOException e)
@@ -105,27 +109,17 @@ public class Enemy_Spawner extends Entity {
         }
     }
 
-    public GameTimer getGameTimer()
-    {
-        return gameTimer;
-    }
 
     public int getTimeBetweenSpawn()
     {
         return timeBetweenSpawn;
     }
 
-    public Timer getTimer1 ()
-    {
-        return gameTimer.getTimer1();
-    }
 
     public void draw (Graphics2D g2)
     {
         BufferedImage image = switch (state) {
-            case 1 -> s1;
-            case 2 -> s2;
-            case 3 -> s3;
+            case 1 -> bufferedImages.get(0);
             default -> null;
         };
 
@@ -133,5 +127,22 @@ public class Enemy_Spawner extends Entity {
         {
             g2.drawImage(image, x - gamePanel.getTileSize(),y,gamePanel.getTileSize() * 2,gamePanel.getTileSize(),null);
         }
+    }
+
+    public GamePanel getGamePanel()
+    {
+        return gamePanel;
+    }
+
+    public GameTimer getGameTimer()
+    {
+
+        return gameTimer;
+    }
+
+    public void killAllEnemies ()
+    {
+        //enemies.forEach(enemy -> enemy.startDying(timeBetweenSpawn,false));
+        enemies.forEach(enemy -> enemy.setAlive(false));
     }
 }
