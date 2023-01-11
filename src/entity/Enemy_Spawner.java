@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
 
 
 public class Enemy_Spawner extends Entity {
@@ -85,7 +84,7 @@ public class Enemy_Spawner extends Entity {
 
     public void spawnEnemy ()
     {
-        enemies.add(new Enemy(gamePanel, enemySpawnLocationX, enemySpawnLocationY, enemy_speed, this));
+        enemies.add(new Enemy(gamePanel, enemySpawnLocationX, enemySpawnLocationY, enemy_speed));
     }
 
 

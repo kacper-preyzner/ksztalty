@@ -6,10 +6,12 @@ import entity.Enemy_Spawner;
 import entity.Player;
 import ui.*;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -32,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int score;
 
     private boolean running;
-    private final double updateRate = 1.0d; // UPDATES_PER_SECOND;
+    private final double updateRate = 1/60d; // UPDATES_PER_SECOND;
 
     private int gameState = 2;
 
@@ -76,6 +78,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private final AudioManager audioManager = new AudioManager();
 
+    BufferedImage logo;
+
+
     public GamePanel () throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -83,9 +88,16 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+
+        logo = (ImageIO.read(getClass().getClassLoader().getResourceAsStream("icon.png")));
+
     }
 
 
+    public BufferedImage getLogo() {
+        return logo;
+
+    }
 
     private final UIRenderer uiRenderer = new UIRenderer();
 
@@ -114,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void initializeUI ()
     {
-        HorizontalContainer container = new HorizontalContainer(this);
+        VerticalContainer container = new VerticalContainer(this);
         HorizontalContainer centerUIContainer = new HorizontalContainer(this);
 
 
@@ -141,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         running = true;
         double accumulator = 0;
-        long currentTime, lastUpdate = System.currentTimeMillis();
+        long currentTime, lastUpdate = System.currentTimeMillis() + 1000;
 
         while(running) {
             currentTime = System.currentTimeMillis();
@@ -155,21 +167,21 @@ public class GamePanel extends JPanel implements Runnable {
                     accumulator -= updateRate;
                 }
             }
+
             repaint();
+
         }
 
     }
 
-    //update();
-
-    //repaint();
 
     public void update()
     {
 
+        if (gameState != 3) player.update();
+
         if (gameState == 2)
         {
-            player.update();
             enemy_spawner.update();
 
 
@@ -186,9 +198,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         background.draw(g2);
 
+        if (gameState != 3) player.draw(g2);
         if (gameState == 2)
         {
-            player.draw(g2);
+
             enemy_spawner.draw(g2);
             enemy_spawner.drawEnemies(g2);
         }
@@ -207,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (player.getState() == enemy.getState())
         {
-           enemy.startDying(enemy_spawner.getTimeBetweenSpawn(), true);
+           enemy.startDying(enemy_spawner.getTimeBetweenSpawn());
         } else
         {
             System.out.println("GAME OVER");

@@ -45,6 +45,9 @@ public class KeyHandler implements KeyListener {
         {
             gamePanel.startGame();
         }
+        if (code == KeyEvent.VK_ESCAPE && gamePanel.getGameState() != 2)
+        {
+            Main.exit();        }
 
     }
 

@@ -49,13 +49,13 @@ public class GameBalancer {
         else if (score == 70)
 
         {
-            timeBtwSpawn = 500;
+            timeBtwSpawn = 600;
             background.setBgState(5);
         }
         else if (score == 90)
 
         {
-            timeBtwSpawn = 500;
+            timeBtwSpawn = 600;
             background.setBgState(6);
         }
         else if (score == 110)
@@ -69,6 +69,60 @@ public class GameBalancer {
         {
             timeBtwSpawn = 500;
             background.setBgState(8);
+        }
+        else if (score == 160)
+
+        {
+            timeBtwSpawn = 500;
+            background.setBgState(9);
+        }
+        else if (score == 180)
+
+        {
+            timeBtwSpawn = 500;
+            background.setBgState(10);
+        }
+        else if (score == 200)
+
+        {
+            timeBtwSpawn = 400;
+            background.setBgState(11);
+        }
+        else if (score == 220)
+
+        {
+            timeBtwSpawn = 400;
+            background.setBgState(12);
+        }
+        else if (score == 240)
+
+        {
+            timeBtwSpawn = 400;
+            background.setBgState(13);
+        }
+        else if (score == 260)
+
+        {
+            timeBtwSpawn = 400;
+            background.setBgState(14);
+        }
+        else if (score == 269)
+
+        {
+            timeBtwSpawn = 350;
+            background.setBgState(15);
+        }
+        else if (score == 280)
+
+        {
+            timeBtwSpawn = 350;
+            background.setBgState(16);
+        }
+        else if (score == 300)
+
+        {
+            timeBtwSpawn = 300;
+            background.setBgState(17);
         }
 
         enemy_spawner.setTimeBetweenSpawn(timeBtwSpawn);

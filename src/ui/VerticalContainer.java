@@ -35,8 +35,6 @@ public class VerticalContainer extends UIContainer {
     {
         int currentY = padding.getTop();
 
-
-
         for (UIComponent uiComponent : children)
         {
             currentY += uiComponent.getMargin().getTop();

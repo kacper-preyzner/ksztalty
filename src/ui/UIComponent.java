@@ -18,7 +18,7 @@ public abstract class UIComponent {
         this.position = new Position(0,0);
         this.size = new Size(1,1);
         this.margin = new Spacing(0);
-        this.padding = new Spacing(5);
+        this.padding = new Spacing(10);
         this.gamePanel = gamePanel;
     }
 

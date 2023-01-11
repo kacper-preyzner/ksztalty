@@ -1,13 +1,10 @@
 package entity;
 
-import main.FPS;
 import main.GamePanel;
-import main.KeyHandler;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,20 +13,80 @@ public class Enemy extends Entity {
 
     private final int speed;
 
-    private Enemy_Spawner enemy_spawner;
+    private static int counter1 = 0;
+    private static int counter2 = 0;
+    private static int counter3 = 0;
+
+    Random random = new Random();
 
 
-    public Enemy (GamePanel gamePanel,int defaultX, int defaultY, int speed, Enemy_Spawner enemy_spawner)
+    public Enemy(GamePanel gamePanel, int defaultX, int defaultY, int speed)
     {
         this.gamePanel = gamePanel;
         this.speed = speed;
-        this.enemy_spawner = enemy_spawner;
 
         setDefaultPosition(defaultX, defaultY);
         getEnemyImage();
 
-        Random random = new Random();
-        state = random.nextInt(1,3+1); // State is equal to random number : 1, 2 or 3
+        state = getRandomState();
+    }
+
+    private int getRandomState ()
+    {
+        int s;
+        s = random.nextInt(1,3+1);
+        int maxInARow = 3;
+        switch (s) {
+            case 1 -> {
+
+                if (counter1 < maxInARow) {
+                    counter1++;
+                    counter2 = 0;
+                    counter3 = 0;
+                    return 1;
+
+                }
+                counter1 = 0;
+                counter2 = 0;
+                counter3 = 1;
+                return 3;
+
+            }
+            case 2 -> {
+
+                if (counter2 < maxInARow) {
+
+                    counter1 = 0;
+                    counter2++;
+                    counter3 = 0;
+                    return 2;
+                } else {
+                    counter1++;
+                    counter2 = 0;
+                    counter3 = 0;
+                    return 1;
+
+                }
+            }
+            case 3 -> {
+                if (counter3 < maxInARow) {
+
+                    counter1 = 0;
+                    counter2 = 0;
+                    counter3++;
+                    return 3;
+                } else {
+                    counter1 = 0;
+                    counter2++;
+                    counter3 = 0;
+                    return 2;
+
+                }
+            }
+
+        }
+        return 0;
+
     }
 
     public void setDefaultPosition (int defaultX, int defaultY)
@@ -44,23 +101,15 @@ public class Enemy extends Entity {
         try
         {
            // System.out.println("enemy image loading started");
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/1E.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/2E.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("enemy/3E.png")));
+            bufferedImages.add(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("enemy/1E.png"))));
+            bufferedImages.add(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("enemy/2E.png"))));
+            bufferedImages.add(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("enemy/3E.png"))));
 
            // System.out.println("enemy image loading ended");
         } catch (IOException e)
         {
             System.out.println("ERROR!");
         }
-    }
-
-
-
-    public void update ()
-    {
-
-
     }
 
 
@@ -75,8 +124,8 @@ public class Enemy extends Entity {
 
     }
 
-    private Timer timer = new Timer();
-    private TimerTask task = new TimerTask()
+    private final Timer timer = new Timer();
+    private final TimerTask task = new TimerTask()
     {
 
         @Override
@@ -86,7 +135,7 @@ public class Enemy extends Entity {
         }
     };
 
-    public void startDying (int timeBetweenSpawn, boolean isKilledByPlayer)
+    public void startDying(int timeBetweenSpawn)
     {
         int delay = timeBetweenSpawn / 2;
         timer.schedule(task,delay);

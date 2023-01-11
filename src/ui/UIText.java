@@ -4,6 +4,8 @@ import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UIText extends UIComponent{
 
@@ -19,6 +21,10 @@ public class UIText extends UIComponent{
 
     private Font font;
 
+    Font minecraftia;
+    InputStream is = getClass().getClassLoader().getResourceAsStream("Minecraftia.ttf");
+
+
     public UIText(String text, GamePanel gamePanel) {
         super(gamePanel);
 
@@ -31,6 +37,14 @@ public class UIText extends UIComponent{
         this.dropShadow = false;
         this.dropShadowOffset = 2;
         this.shadowColor = Color.black;
+
+        try {
+            minecraftia = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(30f);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -48,6 +62,11 @@ public class UIText extends UIComponent{
         graphics.drawString(text, padding.getLeft(), fontSize + 15 + padding.getTop());
 
         graphics.dispose();
+        try {
+            getFont();
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
         return image;
     }
 
@@ -66,7 +85,8 @@ public class UIText extends UIComponent{
     }
 
     private void createFont() {
-        font = new Font(fontFamily, fontStyle, fontSize);
+        font = minecraftia;
+
     }
 
     public void setText(String text) {
@@ -103,5 +123,9 @@ public class UIText extends UIComponent{
 
     public void setFont(Font font) {
         this.font = font;
+    }
+
+    public void getFont () throws IOException, FontFormatException {
+
     }
 }

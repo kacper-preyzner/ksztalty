@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public class Background extends Entity {
 
+    final int maxBGState = 17;
+
     public Background(int x, int y,GamePanel gamePanel)
     {
 
@@ -27,17 +29,15 @@ public class Background extends Entity {
 
     public void getBackgroundImage()
     {
+        System.out.println("Background image loading started");
+        String path;
         try
         {
-            System.out.println("Background image loading started");
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_1.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_2.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_3.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_4.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_5.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_6.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_7.png")));
-            bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream("background/background_8.png")));
+            for (int i = 1; i <= maxBGState; i++)
+            {
+                path = ("background/background_" + i + ".png");
+                bufferedImages.add(ImageIO.read(getClass().getClassLoader().getResourceAsStream(path)));
+            }
 
              System.out.println("Background image loading ended");
         } catch (IOException e)
@@ -48,17 +48,8 @@ public class Background extends Entity {
 
     public void draw (Graphics2D g2)
     {
-        BufferedImage image = switch (state) {
-            case 1 -> bufferedImages.get(0);
-            case 2 -> bufferedImages.get(1);
-            case 3 -> bufferedImages.get(2);
-            case 4 -> bufferedImages.get(3);
-            case 5 -> bufferedImages.get(4);
-            case 6 -> bufferedImages.get(5);
-            case 7 -> bufferedImages.get(6);
-            case 8 -> bufferedImages.get(7);
-            default -> null;
-        };
+        BufferedImage image = bufferedImages.get(state - 1);
+
 
         if (alive)
         {

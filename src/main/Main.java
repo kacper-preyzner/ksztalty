@@ -1,5 +1,6 @@
 package main;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
@@ -8,15 +9,25 @@ import java.io.IOException;
 public class Main
 {
 
+    private static JFrame window;
+
+    public static void exit()
+    {
+        System.exit(0);
+    }
+
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
-        JFrame window = new JFrame();
+        window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("CHUJ");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
+
+        window.setIconImage(gamePanel.getLogo());
+
 
         window.pack();
 
@@ -25,5 +36,8 @@ public class Main
 
         FPS.calcBeginTime();
         gamePanel.startGameThread();
+
+
+
     }
 }
