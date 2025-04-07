@@ -1,2 +1,2 @@
 # ksztalty
-Gra pisana w javie o ksztaltach xD
+A game written in Java Swing, about shapes
